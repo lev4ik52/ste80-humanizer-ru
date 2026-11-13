@@ -1,1 +1,1 @@
-"""Local optional utilities for STE80 Humanizer RU."""
+"""Local optional utilities for TextRefine RU."""

@@ -1,13 +1,13 @@
-# STE80 Humanizer RU
+# TextRefine RU
 
 Russian-first Agent Skill for clear editing without invented facts or erased
-voice. Version 1.0.0. Includes a secondary English profile and mixed-language
+voice. Version 1.1.0. Includes a secondary English profile and mixed-language
 editing without automatic translation.
 
 This is an instruction package plus optional Python diagnostics, not a model or
 an automatic rewriting program. It does not detect authorship, promise detector
-evasion, or certify ASD-STE100 compliance. The number 80 refers to its origin,
-not a measured quality score.
+evasion, or certify ASD-STE100 compliance. Upstream attribution and license
+notices are retained under the new name.
 
 ## Install and invoke
 
@@ -20,8 +20,8 @@ npx skills add . --global --agent codex --copy
 The command requires Node.js/npm. Other Skills CLI targets include `claude-code`
 and `cursor`. Live integration tests in these clients have not been performed.
 For Codex, manual installation is also possible under
-`$HOME/.agents/skills/ste80-humanizer-ru` without overwriting an existing directory.
-Invoke `$ste80-humanizer-ru` with your text and editing requirements.
+`$HOME/.agents/skills/textrefine-ru` without overwriting an existing directory.
+Invoke `$textrefine-ru` with your text and editing requirements.
 
 Modes: `light`, `humanize`, `strict`, `review`. Genres: documentation, web,
 social, email, business, UX, creative. Facts and meaning always outrank style.
@@ -53,7 +53,7 @@ Install Git and GitHub CLI; authenticate using `gh auth login --hostname github.
 `python scripts/publish.py` only prints a plan. Add `--execute` to create a NEW
 PUBLIC repository under the authenticated personal account, run offline checks,
 push allowlisted files, and verify visibility and commit SHA. Defaults:
-`lev4ik52/ste80-humanizer-ru`. Existing repositories are never overwritten.
+`lev4ik52/textrefine-ru`. Existing repositories are never overwritten.
 
 The package does not assert that the repository has already been published.
 Remote GitHub Actions and application integration tests are separate steps.

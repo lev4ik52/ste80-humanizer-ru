@@ -23,7 +23,7 @@ class ValidationTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
-        self.root = Path(self.tmp.name)/'ste80-humanizer-ru'
+        self.root = Path(self.tmp.name)/'textrefine-ru'
         shutil.copytree(ROOT, self.root, ignore=shutil.ignore_patterns('__pycache__', '.git'))
         val.refresh_manifest(self.root)
 
@@ -71,7 +71,7 @@ class ValidationTests(unittest.TestCase):
 
     def test_invalid_frontmatter(self):
         p=self.root/'SKILL.md'
-        p.write_text(p.read_text(encoding='utf-8').replace('name: ste80-humanizer-ru','name: wrong'),encoding='utf-8',newline='\n')
+        p.write_text(p.read_text(encoding='utf-8').replace('name: textrefine-ru','name: wrong'),encoding='utf-8',newline='\n')
         val.refresh_manifest(self.root)
         self.assertTrue(any('имя скилла' in err for err in val.validate(self.root)))
 
@@ -169,17 +169,17 @@ class PublishTests(unittest.TestCase):
         elif args[:3]==['gh','repo','view'] and args[-1]=='name':
             status=1
         elif args[:3]==['gh','repo','view']:
-            stdout=json.dumps({'url':'https://github.com/lev4ik52/ste80-humanizer-ru','isPrivate':False})
+            stdout=json.dumps({'url':'https://github.com/lev4ik52/textrefine-ru','isPrivate':False})
         elif args[:3]==['git','rev-parse','HEAD'] or args[:2]==['gh','api']:
             stdout=SHA+'\n'
         return subprocess.CompletedProcess(args,status,stdout,'')
 
     def execute(self):
-        return pub.publish('lev4ik52','ste80-humanizer-ru',True,self.root)
+        return pub.publish('lev4ik52','textrefine-ru',True,self.root)
 
     def test_dry_run_has_no_subprocess(self):
         with patch('scripts.publish.run') as runner:
-            result=pub.publish('lev4ik52','ste80-humanizer-ru',False,self.root)
+            result=pub.publish('lev4ik52','textrefine-ru',False,self.root)
         runner.assert_not_called()
         self.assertFalse(result['executed'])
         self.assertEqual('public',result['visibility'])
@@ -210,11 +210,11 @@ class PublishTests(unittest.TestCase):
     def test_existing_repo_aborts(self):
         def existing(args,cwd=None,check=True):
             if args[:3]==['gh','repo','view']:
-                return subprocess.CompletedProcess(args,0,'{"name":"ste80-humanizer-ru"}','')
+                return subprocess.CompletedProcess(args,0,'{"name":"textrefine-ru"}','')
             return self.fake_run(args,cwd,check)
         with patch('scripts.publish.run',side_effect=existing):
             with self.assertRaisesRegex(pub.PublishError,'уже существует'): self.execute()
-        self.assertFalse((self.stagebase/'ste80-humanizer-ru').exists())
+        self.assertFalse((self.stagebase/'textrefine-ru').exists())
 
     def test_success_verifies_public_and_sha(self):
         with patch('scripts.publish.run',side_effect=self.fake_run): result=self.execute()
@@ -281,7 +281,7 @@ class PublishTests(unittest.TestCase):
     def test_cli_default_no_execute(self):
         with patch('scripts.publish.publish',return_value={'executed':False}) as action,contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(0,pub.main([]))
-        action.assert_called_once_with('lev4ik52','ste80-humanizer-ru',False)
+        action.assert_called_once_with('lev4ik52','textrefine-ru',False)
 
     def test_cli_failure_exit(self):
         with patch('scripts.publish.publish',side_effect=pub.PublishError('test')),contextlib.redirect_stderr(io.StringIO()):

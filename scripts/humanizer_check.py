@@ -11,7 +11,7 @@ import re
 import sys
 from typing import Iterable
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 MAX_BYTES = 2_000_000
 LIMITS = {"light": 45, "humanize": 32, "strict": 24}
 
@@ -180,7 +180,7 @@ def lint_text(text: str, mode: str = "humanize", max_words: int | None = None, p
             record("RU16_REPEAT", start, end, "Три предложения начинаются одинаково. Сохраните намеренную анафору и параллельные шаги.")
     findings.sort(key=lambda item: (item.line, item.column, item.code))
     return {
-        "tool": "ste80-humanizer-ru", "version": VERSION, "operation": "lint", "mode": mode,
+        "tool": "textrefine-ru", "version": VERSION, "operation": "lint", "mode": mode,
         "status": "review_suggested" if findings else "no_heuristic_findings",
         "findings": [asdict(item) for item in findings],
         "protected_regions": len(spans),
@@ -242,7 +242,7 @@ def compare_texts(before: str, after: str, protect: Iterable[str] = ()) -> dict:
         if left[key] != right[key]:
             findings.append({"code": code, "severity": severity, "message": message, **differences(left[key], right[key])})
     return {
-        "tool": "ste80-humanizer-ru", "version": VERSION, "operation": "compare",
+        "tool": "textrefine-ru", "version": VERSION, "operation": "compare",
         "status": "manual_review_required", "findings": findings,
         "hard_differences": sum(item["severity"] == "error" for item in findings),
         "limitations": "Сверьте каждое утверждение в обе стороны. Совпадение чисел не проверяет их связь с объектами; имена, числа словами и семантика полностью не распознаются.",

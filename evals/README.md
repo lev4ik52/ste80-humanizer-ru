@@ -49,7 +49,7 @@ python scripts/run_evals.py --format json
   "metadata": {
     "model": "точная версия модели",
     "agent": "клиент и версия",
-    "skill_version": "1.0.0",
+    "skill_version": "1.1.0",
     "skill_commit": "фактический SHA или идентификатор пакета",
     "run_id": "идентификатор повтора"
   },

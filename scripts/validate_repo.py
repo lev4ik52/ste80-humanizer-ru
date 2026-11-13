@@ -67,7 +67,7 @@ def manifest_data(root: Path) -> dict:
     for relative in file_set(root):
         path = safe_path(root, relative)
         files[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
-    return {"schema_version": 1, "skill": "ste80-humanizer-ru", "version": "1.0.0", "files": files}
+    return {"schema_version": 1, "skill": "textrefine-ru", "version": "1.1.0", "files": files}
 
 
 def refresh_manifest(root: Path) -> None:
@@ -107,17 +107,17 @@ def validate(root: Path = ROOT) -> list[str]:
         errors.append('Нет корректного frontmatter SKILL.md')
     else:
         name=re.search(r'^name: (.+)$',header[1],re.M)
-        if not name or name[1] != 'ste80-humanizer-ru':
+        if not name or name[1] != 'textrefine-ru':
             errors.append('Неверное имя скилла')
         description=re.search(r'^description: >-\n((?:  [^\n]*\n?)+)',header[1],re.M)
         if not description or not 1 <= len(' '.join(line.strip() for line in description[1].splitlines())) <= 1024:
             errors.append('Некорректное описание скилла')
-        if 'version: "1.0.0"' not in header[1] or 'license: MIT' not in header[1]:
+        if 'version: "1.1.0"' not in header[1] or 'license: MIT' not in header[1]:
             errors.append('Проверьте версию и лицензию')
     if len(skill.splitlines()) > 250:
         errors.append('SKILL.md превышает 250 строк')
     changelog = root/'CHANGELOG.md'
-    if changelog.is_file() and '## 1.0.0' not in changelog.read_text(encoding='utf-8'):
+    if changelog.is_file() and '## 1.1.0' not in changelog.read_text(encoding='utf-8'):
         errors.append('Версия CHANGELOG не совпадает')
     for loader, relative in ((load_cases, 'evals/cases.json'), (load_triggers, 'evals/triggers.json')):
         try:

@@ -60,7 +60,7 @@ def publish(owner: str, name: str, execute: bool, root: Path = ROOT) -> dict:
     exists=run(['gh','repo','view',repository,'--json','name'],check=False)
     if exists.returncode==0:
         raise PublishError(f'{repository} уже существует. Автоматическое изменение или перезапись запрещены; используйте отдельный обычный git workflow.')
-    stage=Path(tempfile.mkdtemp(prefix='ste80-ru-publish-'))/'ste80-humanizer-ru'
+    stage=Path(tempfile.mkdtemp(prefix='textrefine-ru-publish-'))/'textrefine-ru'
     stage.mkdir()
     try:
         for relative in files:
@@ -76,7 +76,7 @@ def publish(owner: str, name: str, execute: bool, root: Path = ROOT) -> dict:
         run(['git','config','user.name',owner],cwd=stage)
         run(['git','config','user.email',f'{account_id}+{owner}@users.noreply.github.com'],cwd=stage)
         run(['git','add','--',*files],cwd=stage)
-        run(['git','-c','commit.gpgsign=false','commit','-m','feat: release Russian-first humanizer skill 1.0.0'],cwd=stage)
+        run(['git','-c','commit.gpgsign=false','commit','-m','feat: release TextRefine RU 1.1.0'],cwd=stage)
         local_sha=run(['git','rev-parse','HEAD'],cwd=stage).stdout.strip()
         run(['gh','repo','create',repository,'--public','--description',DESCRIPTION,
              '--source',str(stage),'--remote','origin','--push','--disable-wiki'],cwd=stage)
@@ -95,7 +95,7 @@ def publish(owner: str, name: str, execute: bool, root: Path = ROOT) -> dict:
 def main(argv: list[str] | None = None) -> int:
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--owner',default='lev4ik52')
-    parser.add_argument('--name',default='ste80-humanizer-ru')
+    parser.add_argument('--name',default='textrefine-ru')
     parser.add_argument('--execute',action='store_true',help='Явно создать новый PUBLIC-репозиторий и загрузить пакет')
     args=parser.parse_args(argv)
     try:

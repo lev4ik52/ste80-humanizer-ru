@@ -1,6 +1,6 @@
 interface:
-  display_name: "STE80 Humanizer RU"
+  display_name: "TextRefine RU"
   short_description: "Русская редактура без потери смысла и голоса"
-  default_prompt: "Используй $ste80-humanizer-ru: отредактируй текст, сохрани исходный язык, факты, ограничения и авторский голос."
+  default_prompt: "Используй $textrefine-ru. Убери канцелярит и повторы. Сохрани исходный язык, факты, ограничения и мой голос. Верни только готовый текст.\n\nТекст:\n[вставь текст]"
 policy:
   allow_implicit_invocation: true
