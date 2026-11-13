@@ -1,0 +1,6 @@
+interface:
+  display_name: "STE80 Humanizer RU"
+  short_description: "Русская редактура без потери смысла и голоса"
+  default_prompt: "Используй $ste80-humanizer-ru: отредактируй текст, сохрани исходный язык, факты, ограничения и авторский голос."
+policy:
+  allow_implicit_invocation: true
