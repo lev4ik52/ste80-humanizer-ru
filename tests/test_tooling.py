@@ -111,8 +111,13 @@ class ValidationTests(unittest.TestCase):
         self.assertEqual((self.root/'scripts/publish.py').resolve(),val.safe_path(self.root,'scripts/publish.py'))
 
     def test_safe_path_with_relative_root(self):
-        relative=Path(os.path.relpath(self.root,Path.cwd()))
-        self.assertEqual((self.root/'README.md').resolve(),val.safe_path(relative,'README.md'))
+        # A relative path cannot cross Windows drives. GitHub's checkout and
+        # default TEMP use different drives, so create this fixture beside cwd.
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as temp:
+            root=Path(temp)
+            (root/'README.md').write_text('Text\n',encoding='utf-8',newline='\n')
+            relative=Path(os.path.relpath(root,Path.cwd()))
+            self.assertEqual((root/'README.md').resolve(),val.safe_path(relative,'README.md'))
 
     def test_symlink_disallowed(self):
         p=self.root/'README.en.md'
